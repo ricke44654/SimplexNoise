@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace NoiseEngine
 {
+    /// <summary>
+    /// This class generates several noise "octaves", frequencies, and amplitudes, then combines them to make the final Simplex Noise.
+    /// </summary>
     public class SimplexNoise
     {
         private SimplexNoiseOctave[] octaves;
@@ -40,6 +43,12 @@ namespace NoiseEngine
             }
         }
 
+        /// <summary>
+        /// Combines the separate octaves, frequencies, and amplitudes into a single Simplex Noise value for the specified position.
+        /// </summary>
+        /// <param name="x">The x position in the noise.</param>
+        /// <param name="y">The y position in the noise.</param>
+        /// <returns></returns>
         public double GetNoise(int x, int y)
         {
             double result = 0;

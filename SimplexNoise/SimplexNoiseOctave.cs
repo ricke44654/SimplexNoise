@@ -7,17 +7,10 @@ using System.Threading.Tasks;
 namespace NoiseEngine
 {
     /// <summary>
-    /// A speed-improved simplex noise algorithm for 2D in C#.
-    /// Based on example code by Stefan Gustavson (stegu@itn.liu.se).
-    /// Optimizations by Peter Eastman (peastman@drizzle.stanford.edu).
-    /// Better rank ordering method by Stefan Gustavson in 2012.
+    /// A speed-improved simplex noise algorithm for 2D in C#.  Based on example code by Stefan Gustavson (stegu@itn.liu.se).
+    /// Optimizations by Peter Eastman (peastman@drizzle.stanford.edu).  Better rank ordering method by Stefan Gustavson in 2012.
     /// 
-    /// This could be speeded up even further, but it's useful as it is.
-    /// 
-    /// Version 2012-03-09
-    /// 
-    /// This code was placed in the public domain by its original author,
-    /// Stefan Gustavson. You may use it as you see fit, but
+    /// This code was placed in the public domain by its original author, Stefan Gustavson. You may use it as you see fit, but
     /// attribution is appreciated.
     /// </summary>
     public class SimplexNoiseOctave
@@ -112,18 +105,36 @@ namespace NoiseEngine
         private static double F2 = 0.5 * (Math.Sqrt(3.0) - 1.0);
         private static double G2 = (3.0 - Math.Sqrt(3.0)) / 6.0;
 
-        // This method is a *lot* faster than using (int)Math.floor(x)
+        /// <summary>
+        /// Fast floor function - this method is a *lot* faster than using (int)Math.floor(x) - at least that's the case for the original Java
+        /// code, not sure about .NET. :)
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
         private static int FastFloor(double x)
         {
             int xi = (int)x;
             return x < xi ? xi - 1 : xi;
         }
 
+        /// <summary>
+        ///  Computes the dot product for the gradient and specified position.
+        /// </summary>
+        /// <param name="g"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         private static double dot(Grad g, double x, double y)
         {
             return g.x * x + g.y * y;
         }
 
+        /// <summary>
+        /// Computes a 2D Simplex Noise value for the specified location in the noise.
+        /// </summary>
+        /// <param name="xin">The x position in the noise.</param>
+        /// <param name="yin">The y position in the noise.</param>
+        /// <returns></returns>
         public double Noise(double xin, double yin)
         {
             double n0, n1, n2; // Noise contributions from the three corners
